@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Brian Grob and Ryan Strong" />
+
+<meta name="date" content="2017-10-24" />
+
+<title>GoogleVizAssignment</title>
+
+<script src="GoogleVizAssignmentFinal_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="GoogleVizAssignmentFinal_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="GoogleVizAssignmentFinal_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="GoogleVizAssignmentFinal_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="GoogleVizAssignmentFinal_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="GoogleVizAssignmentFinal_files/navigation-1.1/tabsets.js"></script>
+<link href="GoogleVizAssignmentFinal_files/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="GoogleVizAssignmentFinal_files/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">GoogleVizAssignment</h1>
+<h4 class="author"><em>Brian Grob and Ryan Strong</em></h4>
+<h4 class="date"><em>October 24, 2017</em></h4>
+
+</div>
+
+
+<div id="applying-appropriate-packages" class="section level2">
+<h2>Applying Appropriate Packages</h2>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.4.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyr)</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 3.4.2</code></pre>
+<pre class="r"><code>library(googleVis)</code></pre>
+<pre><code>## Warning: package &#39;googleVis&#39; was built under R version 3.4.2</code></pre>
+<pre><code>## Creating a generic function for &#39;toJSON&#39; from package &#39;jsonlite&#39; in package &#39;googleVis&#39;</code></pre>
+<pre><code>## 
+## Welcome to googleVis version 0.6.2
+## 
+## Please read Google&#39;s Terms of Use
+## before you start using the package:
+## https://developers.google.com/terms/
+## 
+## Note, the plot method of googleVis will by default use
+## the standard browser to display its output.
+## 
+## See the googleVis package vignettes for more details,
+## or visit http://github.com/mages/googleVis.
+## 
+## To suppress this message use:
+## suppressPackageStartupMessages(library(googleVis))</code></pre>
+<pre class="r"><code>library(datasets)
+library(gudatavizfa17)
+bcities=bcities</code></pre>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<div id="we-are-given-information-on-the-50-highest-ranked-cities-in-the-united-states-of-america.-our-goal-is-to-look-at-the-data-associated-with-these-50-cities-and-determine-which-factors-contributed-most-to-their-rankings." class="section level4">
+<h4>We are given information on the 50 highest ranked cities in the United States of America. Our goal is to look at the data associated with these 50 cities and determine which factors contributed most to their rankings.</h4>
+</div>
+<div id="the-first-step-in-doing-this-was-creating-new-columns-for-all-of-the-factors-that-would-be-influenced-by-population-of-the-city." class="section level4">
+<h4>The first step in doing this was creating new columns for all of the factors that would be influenced by population of the city.</h4>
+<div id="here-is-the-column-for-number-of-bars-per-100000-people" class="section level5">
+<h5>Here is the column for number of bars per 100000 people</h5>
+<pre class="r"><code>bcities$Bars.Population=100000*bcities$Bars/bcities$Population</code></pre>
+</div>
+<div id="here-is-the-column-for-number-of-restaurants-per-100000-people" class="section level5">
+<h5>Here is the column for number of restaurants per 100000 people</h5>
+<pre class="r"><code>bcities$Restaurants.Population=100000*bcities$Restaurants/bcities$Population</code></pre>
+</div>
+<div id="here-is-the-column-for-number-of-museums-per-100000-people" class="section level5">
+<h5>Here is the column for number of museums per 100000 people</h5>
+<pre class="r"><code>bcities$Museums.Population=100000*bcities$Museums/bcities$Population</code></pre>
+</div>
+<div id="here-is-the-column-for-number-of-libraries-per-100000-people" class="section level5">
+<h5>Here is the column for number of libraries per 100000 people</h5>
+<pre class="r"><code>bcities$Libraries.Population=100000*bcities$Libraries/bcities$Population</code></pre>
+</div>
+<div id="here-is-the-column-for-number-of-professional-sports-teams-per-100000-people" class="section level5">
+<h5>Here is the column for number of professional sports teams per 100000 people</h5>
+<pre class="r"><code>bcities$Pro.Sports.Teams.Population=100000*bcities$Pro.Sports.Teams/bcities$Population</code></pre>
+</div>
+<div id="here-is-the-column-for-number-of-colleges-per-100000-people" class="section level5">
+<h5>Here is the column for number of colleges per 100000 people</h5>
+<pre class="r"><code>bcities$Colleges.Population=100000*bcities$Colleges/bcities$Population</code></pre>
+</div>
+</div>
+<div id="next-we-created-line-graphs-for-all-of-the-relevant-factors-against-rank" class="section level3">
+<h3>Next we created line graphs for all of the relevant factors against rank</h3>
+<pre class="r"><code>bcitiesgather1=gather(bcities, &quot;Category&quot;, &quot;Value&quot;, c(16,17))</code></pre>
+<pre><code>## Warning in if (!is.finite(x)) return(FALSE): the condition has length &gt; 1
+## and only the first element will be used</code></pre>
+</div>
+<div id="graphs-of-bars-per-capita-and-restaurants-per-capita-against-rank" class="section level2">
+<h2>Graphs of Bars per capita and Restaurants per capita against rank</h2>
+<pre class="r"><code>ggplot(bcitiesgather1,aes(Rank,Value, fill=Rank))+geom_line(stat=&quot;identity&quot;)+
+facet_wrap(~Category)</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div id="bars-per-capita-does-not-appear-to-have-an-influence-on-city-rank-whereas-there-is-an-upward-trend-in-regards-to-restaurants-per-captia-and-rank" class="section level3">
+<h3>Bars per capita does not appear to have an influence on city rank whereas there is an upward trend in regards to restaurants per captia and rank</h3>
+<pre class="r"><code>bcitiesgather2=gather(bcities, &quot;Category&quot;, &quot;Value&quot;, c(18,19))</code></pre>
+<pre><code>## Warning in if (!is.finite(x)) return(FALSE): the condition has length &gt; 1
+## and only the first element will be used</code></pre>
+</div>
+</div>
+<div id="graphs-of-libraries-per-capita-and-museums-per-capita-against-rank" class="section level2">
+<h2>Graphs of Libraries per capita and Museums per capita against rank</h2>
+<pre class="r"><code>ggplot(bcitiesgather2,aes(Rank,Value, fill=Rank))+geom_line(stat=&quot;identity&quot;)+
+facet_wrap(~Category)</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div id="both-libraries-per-capita-and-museums-per-capita-have-a-positive-correlation-with-rank" class="section level3">
+<h3>Both libraries per capita and museums per capita have a positive correlation with rank</h3>
+<pre class="r"><code>bcitiesgather3=gather(bcities, &quot;Category&quot;, &quot;Value&quot;, c(20,21))</code></pre>
+<pre><code>## Warning in if (!is.finite(x)) return(FALSE): the condition has length &gt; 1
+## and only the first element will be used</code></pre>
+</div>
+</div>
+<div id="graphs-of-colleges-per-capita-and-professional-sports-teams-per-capita-against-rank" class="section level2">
+<h2>Graphs of Colleges per capita and Professional Sports Teams per capita against rank</h2>
+<pre class="r"><code>ggplot(bcitiesgather3,aes(Rank,Value, fill=Rank))+geom_line(stat=&quot;identity&quot;)+
+facet_wrap(~Category)</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div id="colleges-per-capita-has-a-slight-upward-trend-with-rank-but-professional-sports-teams-and-rank-do-not-have-a-relationship." class="section level3">
+<h3>Colleges per capita has a slight upward trend with rank, but professional sports teams and rank do not have a relationship.</h3>
+<pre class="r"><code>bcitiesgather4=gather(bcities, &quot;Category&quot;, &quot;Value&quot;, c(14,15))</code></pre>
+<pre><code>## Warning in if (!is.finite(x)) return(FALSE): the condition has length &gt; 1
+## and only the first element will be used</code></pre>
+</div>
+</div>
+<div id="graphs-of-latitude-and-longitude-against-rank" class="section level2">
+<h2>Graphs of latitude and longitude against rank</h2>
+<pre class="r"><code>ggplot(bcitiesgather4,aes(Rank,Value, fill=Rank))+geom_line(stat=&quot;identity&quot;)+
+facet_wrap(~Category)</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<div id="latitude-and-longitude-are-not-contributing-factors-towards-rank" class="section level3">
+<h3>Latitude and longitude are not contributing factors towards rank</h3>
+<pre class="r"><code>bcitiesgather5=gather(bcities, &quot;Category&quot;, &quot;Value&quot;, c(11,13))</code></pre>
+<pre><code>## Warning in if (!is.finite(x)) return(FALSE): the condition has length &gt; 1
+## and only the first element will be used</code></pre>
+</div>
+</div>
+<div id="graphs-of-percentage-of-people-unemployed-and-percentage-of-people-with-graduate-degrees-against-rank" class="section level2">
+<h2>Graphs of percentage of people unemployed and percentage of people with graduate degrees against rank</h2>
+<pre class="r"><code>ggplot(bcitiesgather5,aes(Rank,Value, fill=Rank))+geom_line(stat=&quot;identity&quot;)+
+facet_wrap(~Category)</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div id="percent-of-people-unemployed-does-not-factor-into-the-rank-of-the-city-whereas-percentage-of-people-with-graduate-degrees-has-a-positive-correlation-with-rank." class="section level3">
+<h3>Percent of people unemployed does not factor into the rank of the city whereas percentage of people with graduate degrees has a positive correlation with rank.</h3>
+</div>
+</div>
+<div id="graph-of-population-against-rank" class="section level2">
+<h2>Graph of population against rank</h2>
+<pre class="r"><code>ggplot(bcities,aes(Rank, Population))+geom_line(group=&quot;Rank&quot;)+geom_point()</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div id="population-does-not-factor-into-the-rank-of-the-city" class="section level3">
+<h3>Population does not factor into the rank of the city</h3>
+</div>
+</div>
+<div id="graph-park-space-against-rank" class="section level2">
+<h2>Graph Park Space against rank</h2>
+<pre class="r"><code>ggplot(bcities,aes(Rank, Park.acres.per.1000.residents))+geom_line(group=&quot;Rank&quot;)+geom_point()</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div id="park-space-does-not-factor-into-the-rank-of-the-city" class="section level3">
+<h3>Park Space does not factor into the rank of the city</h3>
+</div>
+</div>
+<div id="graph-of-median-household-income-against-rank" class="section level2">
+<h2>Graph of median household income against rank</h2>
+<pre class="r"><code>ggplot(bcities,aes(Rank, Median.household.income))+geom_line(group=&quot;Rank&quot;)+geom_point()</code></pre>
+<p><img src="GoogleVizAssignmentFinal_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div id="surprisingly-median-household-income-is-also-not-a-major-contributing-factor-towards-rank" class="section level3">
+<h3>Surprisingly, median household income is also not a major contributing factor towards rank</h3>
+</div>
+</div>
+<div id="in-summation-restaurants-per-capita-libraries-per-capita-museums-per-capita-colleges-per-capita-and-percentage-of-people-with-graduate-degrees-seem-to-be-the-driving-factors-in-determining-city-rank." class="section level2">
+<h2>In summation, restaurants per capita, libraries per capita, museums per capita, colleges per capita, and percentage of people with graduate degrees seem to be the driving factors in determining city rank.</h2>
+</div>
+</div>
+<div id="next-we-created-a-chart-displying-the-cities-plotted-on-a-map-of-the-united-states.-the-smaller-the-dot-the-higher-the-rank-and-the-bigger-the-dot-the-lower-the-rank." class="section level1">
+<h1>Next we created a chart displying the cities plotted on a map of the United States. The smaller the dot the higher the rank and the bigger the dot the lower the rank.</h1>
+<div id="to-do-this-we-used-a-googleviz-geochart-of-the-united-states-and-ploted-the-cities-based-on-their-rank." class="section level3">
+<h3>To do this, we used a googleviz geochart of the United States and ploted the cities based on their rank.</h3>
+<pre class="r"><code> Geo &lt;- gvisGeoChart(bcities, locationvar=&quot;City&quot;,colorvar=&quot;Rank&quot;,  options=list(region=&quot;US&quot;, height=350, displayMode=&quot;markers&quot;, colorAxis=&quot;{values:[1, 17, 34, 50], colors:[\&#39;red&#39;, \&#39;pink\&#39;, \&#39;orange&#39;,\&#39;green&#39;]}&quot;) ) 
+Geo</code></pre>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>
+GeoChartID4aa01fa85b98
+</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<style type="text/css">
+body {
+  color: #444444;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 75%;
+  }
+  a {
+  color: #4D87C7;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+<p><!-- GeoChart generated in R 3.4.1 by googleVis 0.6.2 package --> <!-- Thu Nov 02 12:35:36 2017 --></p>
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID4aa01fa85b98 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"Los Angeles",
+50
+],
+[
+"Anchorage",
+49
+],
+[
+"Omaha",
+48
+],
+[
+"St. Louis",
+47
+],
+[
+"Cleveland",
+46
+],
+[
+"Chesapeake",
+45
+],
+[
+"Phoenix",
+44
+],
+[
+"Scottsdale",
+43
+],
+[
+"Reno",
+42
+],
+[
+"Dallas ",
+41
+],
+[
+"Virginia Beach",
+40
+],
+[
+"Charlotte",
+39
+],
+[
+"Tulsa",
+38
+],
+[
+"Indianapolis",
+37
+],
+[
+"Colorado Springs",
+36
+],
+[
+"Tampa ",
+35
+],
+[
+"Lincoln",
+35
+],
+[
+"San Jose",
+33
+],
+[
+"Rochester",
+32
+],
+[
+"Oakland",
+31
+],
+[
+"San Antonio",
+30
+],
+[
+"Baltimore",
+29
+],
+[
+"Chicago",
+28
+],
+[
+"Arlington",
+27
+],
+[
+"Milwaukee",
+26
+],
+[
+"Lexington",
+25
+],
+[
+"Philadelphia",
+24
+],
+[
+"Oklahoma City",
+23
+],
+[
+"Houston",
+22
+],
+[
+"Cincinatti",
+21
+],
+[
+"Columbus ",
+20
+],
+[
+"Honolulu",
+19
+],
+[
+"Raleigh",
+18
+],
+[
+"Madison",
+17
+],
+[
+"Atlanta",
+16
+],
+[
+"Kansas City",
+15
+],
+[
+"New Orleans",
+14
+],
+[
+"Nashvile",
+13
+],
+[
+"Minneapolis",
+12
+],
+[
+"Pittsburgh",
+11
+],
+[
+"St. Paul",
+10
+],
+[
+"San Diego ",
+9
+],
+[
+"Austin",
+8
+],
+[
+"New York",
+7
+],
+[
+"Denver",
+6
+],
+[
+"Portland",
+5
+],
+[
+"Boston",
+4
+],
+[
+"Washington",
+3
+],
+[
+"Seattle",
+2
+],
+[
+"San Francisco",
+1
+] 
+];
+data.addColumn('string','City');
+data.addColumn('number','Rank');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID4aa01fa85b98() {
+var data = gvisDataGeoChartID4aa01fa85b98();
+var options = {};
+options["width"] = 556;
+options["height"] = 350;
+options["region"] = "US";
+options["displayMode"] = "markers";
+options["colorAxis"] = {values:[1, 17, 34, 50], colors:['red', 'pink', 'orange','green']};
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID4aa01fa85b98')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID4aa01fa85b98);
+})();
+function displayChartGeoChartID4aa01fa85b98() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID4aa01fa85b98"></script>
+<!-- divChart -->
+<div id="GeoChartID4aa01fa85b98" style="width: 556; height: 350;">
+
+</div>
+<div>
+<span>Data: bcities • Chart ID: <a href="Chart_GeoChartID4aa01fa85b98.html">GeoChartID4aa01fa85b98</a> • <a href="https://github.com/mages/googleVis">googleVis-0.6.2</a></span><br /> <!-- htmlFooter --> <span> R version 3.4.1 (2017-06-30) • <a href="https://developers.google.com/terms/">Google Terms of Use</a> • <a href="https://google-developers.appspot.com/chart/interactive/docs/gallery/geochart">Documentation and Data Policy</a> </span>
+</div>
+</body>
+</html>
+</div>
+</div>
+<div id="lastly-we-created-a-chart-displaying-the-states-with-a-different-color-based-on-the-number-of-cities-within-the-state-that-were-ranked-in-the-top-50." class="section level1">
+<h1>Lastly, we created a chart displaying the states with a different color based on the number of cities within the state that were ranked in the top 50.</h1>
+<div id="to-do-this-we-first-had-to-create-another-column-relating-the-cities-to-the-state-in-which-they-reside." class="section level3">
+<h3>To do this, we first had to create another column relating the cities to the state in which they reside.</h3>
+<pre class="r"><code>bcities$State=c(&quot;California&quot;, &quot;Alaska&quot;, &quot;Nebraska&quot;, &quot;Missouri&quot;, &quot;Ohio&quot;, &quot;Virgina&quot;, &quot;Arizona&quot;, &quot;Arizona&quot;, &quot;Nevada&quot;, &quot;Texas&quot;, &quot;Virgina&quot;, &quot;North Carolina&quot;, &quot;Oklahoma&quot;, &quot;Indiana&quot;, &quot;Colorado&quot;, &quot;Florida&quot;, &quot;Nebraska&quot;, &quot;California&quot;, &quot;New York&quot;, &quot;California&quot;, &quot;Texas&quot;, &quot;Maryland&quot;, &quot;Illinois&quot;, &quot;Virgina&quot;, &quot;Wisconsin&quot;, &quot;Kentucky&quot;, &quot;Pennsylvania&quot;, &quot;Oklahoma&quot;, &quot;Texas&quot;, &quot;Ohio&quot;, &quot;Ohio&quot;, &quot;Hawaii&quot;, &quot;North Carolina&quot;, &quot;Wisconsin&quot;, &quot;Georgia&quot;, &quot;Missouri&quot;, &quot;Lousiana&quot;, &quot;Tennessee&quot;, &quot;Minnesota&quot;, &quot;Pennsylvania&quot;, &quot;Minnesota&quot;, &quot;California&quot;, &quot;Texas&quot;, &quot;New York&quot;, &quot;Colorado&quot;, &quot;Oregon&quot;, &quot;Massachusetts&quot;, &quot;DC&quot;, &quot;Washington&quot;, &quot;California&quot;)</code></pre>
+</div>
+<div id="then-we-created-a-new-data-frame-which-grouped-the-states-by-the-number-of-cities-present-in-this-top-50-ranking." class="section level3">
+<h3>Then we created a new data frame which grouped the states by the number of cities present in this top 50 ranking.</h3>
+<pre class="r"><code>bcitiescount=bcities%&gt;%group_by(State)%&gt;%summarize(number=length(State))</code></pre>
+</div>
+<div id="by-doing-this-we-were-able-to-create-a-choropleth-chart-of-the-united-states-where-each-state-is-shaded-on-the-basis-of-how-many-cities-within-that-state-made-it-into-the-top-50-rankings." class="section level3">
+<h3>By doing this, we were able to create a choropleth chart of the United States, where each state is shaded on the basis of how many cities within that state made it into the top 50 rankings.</h3>
+<pre class="r"><code>GeoStates &lt;- gvisGeoChart(bcitiescount, &quot;State&quot;, &quot;number&quot;,
+                          options=list(region=&quot;US&quot;, displayMode=&quot;regions&quot;, resolution=&quot;provinces&quot;,
+                                       width=600, height=400))
+GeoStates</code></pre>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>
+GeoChartID4aa0374bab
+</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<style type="text/css">
+body {
+  color: #444444;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 75%;
+  }
+  a {
+  color: #4D87C7;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+<p><!-- GeoChart generated in R 3.4.1 by googleVis 0.6.2 package --> <!-- Thu Nov 02 12:35:36 2017 --></p>
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID4aa0374bab () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"Alaska",
+1
+],
+[
+"Arizona",
+2
+],
+[
+"California",
+5
+],
+[
+"Colorado",
+2
+],
+[
+"DC",
+1
+],
+[
+"Florida",
+1
+],
+[
+"Georgia",
+1
+],
+[
+"Hawaii",
+1
+],
+[
+"Illinois",
+1
+],
+[
+"Indiana",
+1
+],
+[
+"Kentucky",
+1
+],
+[
+"Lousiana",
+1
+],
+[
+"Maryland",
+1
+],
+[
+"Massachusetts",
+1
+],
+[
+"Minnesota",
+2
+],
+[
+"Missouri",
+2
+],
+[
+"Nebraska",
+2
+],
+[
+"Nevada",
+1
+],
+[
+"New York",
+2
+],
+[
+"North Carolina",
+2
+],
+[
+"Ohio",
+3
+],
+[
+"Oklahoma",
+2
+],
+[
+"Oregon",
+1
+],
+[
+"Pennsylvania",
+2
+],
+[
+"Tennessee",
+1
+],
+[
+"Texas",
+4
+],
+[
+"Virgina",
+3
+],
+[
+"Washington",
+1
+],
+[
+"Wisconsin",
+2
+] 
+];
+data.addColumn('string','State');
+data.addColumn('number','number');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID4aa0374bab() {
+var data = gvisDataGeoChartID4aa0374bab();
+var options = {};
+options["width"] = 600;
+options["height"] = 400;
+options["region"] = "US";
+options["displayMode"] = "regions";
+options["resolution"] = "provinces";
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID4aa0374bab')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID4aa0374bab);
+})();
+function displayChartGeoChartID4aa0374bab() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID4aa0374bab"></script>
+<!-- divChart -->
+<div id="GeoChartID4aa0374bab" style="width: 600; height: 400;">
+
+</div>
+<div>
+<span>Data: bcitiescount • Chart ID: <a href="Chart_GeoChartID4aa0374bab.html">GeoChartID4aa0374bab</a> • <a href="https://github.com/mages/googleVis">googleVis-0.6.2</a></span><br /> <!-- htmlFooter --> <span> R version 3.4.1 (2017-06-30) • <a href="https://developers.google.com/terms/">Google Terms of Use</a> • <a href="https://google-developers.appspot.com/chart/interactive/docs/gallery/geochart">Documentation and Data Policy</a> </span>
+</div>
+</body>
+</html>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
